@@ -2,9 +2,13 @@ package com.example.back_end.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.example.back_end.Entites.User;
 import com.example.back_end.Models.Credentials;
 import com.example.back_end.Services.user_services;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +27,14 @@ public class User_controller {
         return ResponseEntity.ok(user_service.save_user(user));
     }
 
-    // private Credentials cred;
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Credentials cred) {
-        String result = user_service.login(cred);
-        if ("success".equals(result)) {
-            return ResponseEntity.ok("success");
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Credentials cred)
+            throws IllegalArgumentException, JWTCreationException, UnsupportedEncodingException {
+        Map<String, Object> result = user_service.login(cred);
+        if ("success".equals(result.get("message"))) {
+            return ResponseEntity.ok(result);
         } else {
-            return ResponseEntity.status(401).body("unauthorized");
+            return ResponseEntity.status(401).body(result);
         }
-
     }
 }
