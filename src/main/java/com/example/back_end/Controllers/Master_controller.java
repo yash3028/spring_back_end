@@ -14,7 +14,7 @@ import com.example.back_end.Services.Master_services;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:5175")
+@CrossOrigin(origins = "http://localhost:5173")
 public class Master_controller {
     @Autowired
     private Master_services master_services;
