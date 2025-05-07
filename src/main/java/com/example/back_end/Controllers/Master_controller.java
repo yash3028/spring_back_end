@@ -1,14 +1,18 @@
 package com.example.back_end.Controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.back_end.Entites.Bus_details;
 import com.example.back_end.Entites.Buses;
 import com.example.back_end.Services.Master_services;
 
@@ -24,4 +28,13 @@ public class Master_controller {
         return ResponseEntity.ok(master_services.getAllBuses());
     }
 
+    @Autowired
+    private Master_services master_services1;
+
+    @PostMapping("/search-buses")
+    public ResponseEntity<List<Bus_details>> searchBuses(@RequestBody Map<String, String> requestBody) {
+        String route = requestBody.get("route");
+        String departureDate = requestBody.get("departureDate");
+        return ResponseEntity.ok(master_services1.searchBus(route, departureDate));
+    }
 }
