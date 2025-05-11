@@ -21,8 +21,10 @@ public class Bus_details {
     private Long id;
     private String operator_name;
     private String bus_no;
-    @Column(name = "bus_route")
-    private String busRoute;
+    @Column(name = "`From`")
+    private String fromLocation;
+    @Column(name = "`To`")
+    private String toLocation;
     @Column(name = "departure_date")
     private String departureDate;
     private String departure_time;

@@ -9,5 +9,6 @@ import com.example.back_end.Entites.Bus_details;
 
 @Repository
 public interface search_repo extends JpaRepository<Bus_details, Long> {
-    List<Bus_details> findByBusRouteAndDepartureDate(String busRoute, String departureDate);
+    List<Bus_details> findByFromLocationAndToLocationAndDepartureDate(String fromLocation, String toLocation,
+            String departureDate);
 }

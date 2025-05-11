@@ -22,7 +22,7 @@ public class Master_services {
     @Autowired
     private search_repo searchRepo;
 
-    public List<Bus_details> searchBus(String route, String departureDate) {
-        return searchRepo.findByBusRouteAndDepartureDate(route, departureDate);
+    public List<Bus_details> searchBus(String from, String to, String departureDate) {
+        return searchRepo.findByFromLocationAndToLocationAndDepartureDate(from, to, departureDate);
     }
 }

@@ -11,12 +11,12 @@ import com.example.back_end.Entites.Bus_details;
 import com.example.back_end.Services.Bus_services;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/agent")
 public class Agent_controller {
     @Autowired
     private Bus_services bus_services;
 
-    @PostMapping("save_bus")
+    @PostMapping("/save_bus")
     public ResponseEntity<Bus_details> saveBus(@RequestBody Bus_details bus_details) {
         return ResponseEntity.ok(bus_services.save_bus(bus_details));
     }
