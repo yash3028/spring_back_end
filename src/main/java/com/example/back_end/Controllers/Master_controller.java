@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.back_end.Entites.Bus_details;
-import com.example.back_end.Entites.Buses;
+import com.example.back_end.Entites.Cities;
 import com.example.back_end.Models.Location;
 import com.example.back_end.Services.Master_services;
 
@@ -24,7 +24,7 @@ public class Master_controller {
     private Master_services master_services;
 
     @GetMapping("/locations")
-    public ResponseEntity<List<Buses>> getAllLocations() {
+    public ResponseEntity<List<Cities>> getAllLocations() {
         return ResponseEntity.ok(master_services.getAllBuses());
     }
 

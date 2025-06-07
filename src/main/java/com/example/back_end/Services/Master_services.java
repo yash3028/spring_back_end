@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.back_end.Entites.Bus_details;
-import com.example.back_end.Entites.Buses;
+import com.example.back_end.Entites.Cities;
 import com.example.back_end.Repository.master_repo;
 import com.example.back_end.Repository.search_repo;
 
@@ -15,7 +15,7 @@ public class Master_services {
     @Autowired
     private master_repo masterRepo;
 
-    public List<Buses> getAllBuses() {
+    public List<Cities> getAllBuses() {
         return masterRepo.findAll();
     }
 

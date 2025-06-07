@@ -10,11 +10,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "master_data")
+@Table(name = "Cities")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Buses {
+public class Cities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
