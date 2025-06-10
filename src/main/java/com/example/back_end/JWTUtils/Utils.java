@@ -14,12 +14,12 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 public class Utils {
     private static final String SECRET_KEY = "yashwanth";
 
-    public String generateToken(String mobile, String email, String username) throws UnsupportedEncodingException {
+    public String generateToken(String mobile, String email, long userId) throws UnsupportedEncodingException {
         try {
             return JWT.create()
                     .withClaim("mobile", mobile)
                     .withClaim("email", email)
-                    .withClaim("username", username)
+                    .withClaim("userId", userId)
                     .sign(Algorithm.HMAC256(SECRET_KEY));
         } catch (JWTCreationException | IllegalArgumentException e) {
             throw new RuntimeException("Error while generating JWT token", e);

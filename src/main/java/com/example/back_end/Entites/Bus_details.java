@@ -31,4 +31,8 @@ public class Bus_details {
     private String arrival_time;
     private String seats_available;
     private Double price;
+    @Column(name = "a_id")
+    private Long aId ;
+    @Column(name = " is_deleted")
+    private Long isDeleted = 0L;
 }

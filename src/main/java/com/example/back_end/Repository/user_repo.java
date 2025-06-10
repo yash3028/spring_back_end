@@ -9,6 +9,6 @@ import com.example.back_end.Entites.User;
 @Repository
 public interface user_repo extends JpaRepository<User, Long> {
     User findUserBymobile(String mobile);
-
+    User findUserById(int Id);
     Optional<User> findByMobile(String mobile);
 }

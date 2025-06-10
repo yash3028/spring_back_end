@@ -31,7 +31,7 @@ public class user_services {
         User user = userRepo.findUserBymobile(cred.getMobile());
         Map<String, Object> response = new HashMap<>();
         if (user != null && user.getPassword().equals(cred.getPassword())) {
-            String token = utils.generateToken(user.getMobile(), user.getEmail(),user.getFullName());
+            String token = utils.generateToken(user.getMobile(), user.getEmail(),user.getId());
 
             user.setToken(token);
             userRepo.save(user);
