@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,4 +68,32 @@ public class Agent_controller {
         }
         return null;
     }
+
+    @PutMapping("/edit/request/{id}")
+    public ResponseEntity<String> updateBus(@PathVariable Long id, @RequestBody Bus_details updatedBus) {
+        try {
+            Optional<Bus_details> optionalBus = busRepo.findById(id);
+            if (optionalBus.isPresent()) {
+                Bus_details existingBus = optionalBus.get();
+                existingBus.setOperator_name(updatedBus.getOperator_name());
+                existingBus.setBus_no(updatedBus.getBus_no());
+                existingBus.setFromLocation(updatedBus.getFromLocation());
+                existingBus.setToLocation(updatedBus.getToLocation());
+                existingBus.setDepartureDate(updatedBus.getDepartureDate());
+                existingBus.setDeparture_time(updatedBus.getDeparture_time());
+                existingBus.setArrival_time(updatedBus.getArrival_time());
+                existingBus.setSeats_available(updatedBus.getSeats_available());
+                existingBus.setPrice(updatedBus.getPrice());
+                busRepo.save(existingBus);
+                return ResponseEntity.ok("Updated");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bus not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update bus");
+        }
+    }
+
+
+
 }
