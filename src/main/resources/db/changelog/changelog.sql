@@ -8,5 +8,3 @@ CREATE TABLE bus_details (id BIGINT AUTO_INCREMENT NOT NULL, operator_name VARCH
 -- precondition-sql-check expectedresult:0 select count(*) from information_schema.tables where table_name='user'
 CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, fullName VARCHAR(255) NULL, email VARCHAR(255) NULL, mobile VARCHAR(255) NULL, userrole VARCHAR(255) NULL, companyName VARCHAR(255) NULL, date_of_birth date NULL, password VARCHAR(255) NULL, token VARCHAR(255) NULL, CONSTRAINT PK_USER PRIMARY KEY (id), UNIQUE (mobile));
 
--- changeset HP:1748877966399-1 splitStatements:false
-INSERT INTO user (id, fullName, email, mobile, userrole, companyName, date_of_birth, password, token) VALUES (1, 'yash', 'a@gmail.com', '1', 'Customer', NULL, '2025-06-03', 'Yashwanth@1234', NULL);

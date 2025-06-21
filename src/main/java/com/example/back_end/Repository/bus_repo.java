@@ -11,6 +11,6 @@ import com.example.back_end.Entites.Bus_details;
 public interface bus_repo extends JpaRepository<Bus_details, Long> {
 
     List<Bus_details> findByaIdAndIsDeleted(Long aId, Long isDeleted);
-    
+    Bus_details findById(int Id);
 
 }
