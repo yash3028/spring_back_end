@@ -70,7 +70,7 @@ public class User_controller {
     }
     @GetMapping("/ticket/{userId}")
     public ResponseEntity<List<Tickets>> getTicket(@PathVariable Long userId){
-        List<Tickets> ticket = tickerRepo.findByUserId(userId);
+        List<Tickets> ticket = tickerRepo.findByUserIdOrderByCreatedTimeDesc(userId);
         return ResponseEntity.ok(ticket);
     }
 
@@ -79,18 +79,24 @@ public class User_controller {
         
         long Id = validation.extractId(request);
         long busId = Long.valueOf(body.get("busId").toString());
+        long seatstoBook = Long.valueOf(body.get("seats").toString());
+
         Optional<Bus_details> bus = busRepo.findById(busId);
         if (!bus.isPresent()) {
         return ResponseEntity.status(404).body("Bus not found");
-    }
+        }
         LocalDateTime time = LocalDateTime.now();
         Bus_details Bus = bus.get(); 
+        long availableSeats = Long.parseLong(Bus.getSeats_available());
+        availableSeats -= seatstoBook;
+        Bus.setSeats_available(String.valueOf(availableSeats));
+        double price = Bus.getPrice() * seatstoBook;
         Tickets ticket = new Tickets();
         ticket.setBusId(Bus);
         ticket.setUserId(Id);
-        ticket.setSeatsBooked(1L);
+        ticket.setSeatsBooked(seatstoBook);
         ticket.setPrice(Bus.getPrice());
-        ticket.setTotalPrice(Bus.getPrice());
+        ticket.setTotalPrice(price);
         ticket.setCreatedTime(Timestamp.valueOf(time));
         ticket.setIs_deleted(false);
         tickerRepo.save(ticket);

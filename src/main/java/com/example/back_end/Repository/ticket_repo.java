@@ -8,6 +8,6 @@ import com.example.back_end.Entites.Tickets;
 
 public interface ticket_repo extends JpaRepository<Tickets,Long> {
 
-    List<Tickets> findByUserId(Long UserId);
+    List<Tickets> findByUserIdOrderByCreatedTimeDesc(Long UserId);
     
 } 

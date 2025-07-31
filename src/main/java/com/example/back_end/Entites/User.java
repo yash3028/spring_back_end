@@ -27,4 +27,5 @@ public class User {
 
     private String password;
     private String token;
+    private String country_code;
 }
