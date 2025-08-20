@@ -1,6 +1,7 @@
 package com.example.back_end.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.example.back_end.Entites.Bus_details;
@@ -15,13 +16,16 @@ import com.example.back_end.JWTUtils.Validation;
 
 
 import jakarta.servlet.http.HttpServletRequest;
-
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +33,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -48,15 +54,54 @@ public class User_controller {
     private bus_repo busRepo;
     @Autowired
     private Validation validation;
-    
-    @PostMapping("/save_user")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
-        Optional<User> existingUser = userRepo.findByMobile(user.getMobile());
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+   @PostMapping("/save_user")
+    public ResponseEntity<User> saveUser(
+        @RequestParam("full_name") String fullName,
+        @RequestParam("mobile") String mobile,
+        @RequestParam("email") String email,
+        @RequestParam("date_of_birth") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.time.LocalDate dob,
+        @RequestParam("password") String password,
+        @RequestParam("company_name") String companyName,
+        @RequestParam("userrole") String userrole,
+        @RequestParam("country_code") String countryCode,
+        @RequestParam(value = "logo", required = false) MultipartFile logo,
+        HttpServletRequest request
+    ) throws Exception {
+        Optional<User> existingUser = userRepo.findByMobile(mobile);
         if (existingUser.isPresent()) {
-            return ResponseEntity.status(409).body(null); 
+            return ResponseEntity.status(409).body(null);
         }
-        return ResponseEntity.ok(user_service.save_user(user));
+
+        User user = new User();
+        user.setFull_name(fullName);
+        user.setMobile(mobile);
+        user.setEmail(email);
+        java.sql.Date sqlDob = java.sql.Date.valueOf(dob);
+        user.setDate_of_birth(sqlDob);
+        user.setPassword(password); 
+        user.setCompany_name(companyName);
+        user.setUserrole(userrole);
+        user.setCountry_code(countryCode);
+
+       if (logo != null && !logo.isEmpty()) {
+        File uploadFolder = new File(uploadDir);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdirs();
+        }
+
+      String fileName = System.currentTimeMillis() + "_" + logo.getOriginalFilename();
+        File dest = new File(uploadFolder, fileName);
+        logo.transferTo(dest);
+        user.setLogo(fileName); 
     }
+
+    User savedUser = user_service.save_user(user);
+
+    return ResponseEntity.ok(savedUser);
+}
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Credentials cred)

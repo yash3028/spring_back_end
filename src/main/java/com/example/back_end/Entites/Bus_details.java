@@ -33,6 +33,7 @@ public class Bus_details {
     private Double price;
     @Column(name = "a_id")
     private Long aId ;
-    @Column(name = " is_deleted")
+    @Column(name = "is_deleted")
     private Long isDeleted = 0L;
+    private String logo;
 }

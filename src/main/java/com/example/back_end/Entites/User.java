@@ -1,6 +1,7 @@
 package com.example.back_end.Entites;
 
 import java.sql.Date;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,12 +16,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
+    private String full_name;
     private String email;
     @Column(unique = true)
     private String mobile;
     private String userrole;
-    private String companyName;
+    private String company_name;
 
     @Temporal(TemporalType.DATE)
     private Date date_of_birth;
@@ -28,4 +29,5 @@ public class User {
     private String password;
     private String token;
     private String country_code;
+    private String logo;
 }
